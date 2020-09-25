@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: LidStaking
-    network: 'mainnet'
+    network: '{{network}}'
     source:
-      address: '0x9a54FE35D41bc7c8F7071aBf0cCD952505e29ceb'
+      address: '{{address}}'
       abi: LidStaking
-      startBlock: 10495555
+      startBlock: {{startBlock}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
