@@ -1,6 +1,254 @@
-type ExampleEntity @entity {
+enum TransactionType {
+  STAKING_CONTRACT_STAKE
+  STAKING_CONTRACT_UNSTAKE
+  STAKING_CONTRACT_WITHDRAW
+  STAKING_CONTRACT_REINVEST
+  STAKING_CONTRACT_DISTRIBUTE
+}
+
+enum AggregateMetricType {
+  TOTAL_SUPPLY
+  TOTAL_STAKED
+}
+
+enum TimeMetricPeriod {
+  HOUR
+  DAY
+  WEEK
+  MONTH
+  QUARTER
+  YEAR
+}
+
+"""
+An ERC20-compatible token
+"""
+type Token @entity {
   id: ID!
-  count: BigInt!
-  sender: Bytes! # address
-  amountSent: BigInt! # uint256
+
+  """
+  Token address
+  """
+  address: Bytes!
+
+  """
+  Token decimals
+  """
+  decimals: Int!
+
+  """
+  Token name
+  """
+  name: String!
+
+  """
+  Token symbol
+  """
+  symbol: String!
+
+  """
+  Total supply of the token
+  """
+  totalSupply: BigDecimal!
+
+  """
+  Quantity of the token that has been minted
+  """
+  totalMinted: BigDecimal!
+
+  """
+  Quantity of the token that has been burned
+  """
+  totalBurned: BigDecimal!
+}
+
+type StakingValue @entity {
+  id: ID!
+
+  """
+  Account this staking balance belongs to
+  """
+  account: Bytes!
+
+  """
+  Staking rewards contract this staking balance is kept on
+  """
+  stakingContract: StakingContract!
+
+  """
+  Staking balance amount
+  """
+  amount: BigInt!
+}
+
+type StakerPayouts @entity {
+  id: ID!
+
+  """
+  Account this staking balance belongs to
+  """
+  account: Bytes!
+
+  """
+  Staking rewards contract this staking balance is kept on
+  """
+  stakingContract: StakingContract!
+
+  """
+  Staking balance amount
+  """
+  amount: Int!
+}
+
+type StakingContract @entity {
+  id: ID!
+
+  lidToken: Token!
+
+  stakingTaxBP: Int!
+
+  unstakingTaxBP: Int!
+
+  totalDistributions: BigInt!
+
+  totalStaked: BigInt!
+
+  totalStakers: BigInt!
+
+  profitPerShare: BigInt!
+
+  startTime: Int!
+
+  registrationFeeWithReferrer: BigInt!
+
+  registrationFeeWithoutReferrer: BigInt!
+
+  stakeValue: [StakingValue!] @derivedFrom(field: "stakingContract")
+
+  stakerPayouts: [StakerPayouts!] @derivedFrom(field: "stakingContract")
+}
+
+interface TimeMetric {
+  id: ID!
+
+  value: BigDecimal!
+
+  timestamp: Int!
+
+  period: TimeMetricPeriod!
+}
+
+type VolumeMetric implements TimeMetric @entity {
+  id: ID!
+
+  value: BigDecimal!
+
+  timestamp: Int!
+
+  period: TimeMetricPeriod!
+
+  type: TransactionType!
+}
+
+type AggregateMetric implements TimeMetric @entity {
+  id: ID!
+
+  value: BigDecimal!
+
+  timestamp: Int!
+
+  period: TimeMetricPeriod!
+
+  type: AggregateMetricType!
+}
+
+"""
+A common transaction type
+"""
+interface Transaction {
+  id: ID!
+
+  tx: Bytes!
+
+  type: TransactionType!
+
+  timestamp: Int!
+
+  sender: Bytes!
+}
+
+type StakeTransaction implements Transaction @entity {
+  id: ID!
+
+  tx: Bytes!
+
+  type: TransactionType!
+
+  timestamp: Int!
+
+  sender: Bytes!
+
+  amount: BigInt!
+
+  tax: BigInt!
+}
+
+type UnStakeTransaction implements Transaction @entity {
+  id: ID!
+
+  tx: Bytes!
+
+  type: TransactionType!
+
+  timestamp: Int!
+
+  sender: Bytes!
+
+  amount: BigInt!
+
+  tax: BigInt!
+}
+
+type WithdrawTransaction implements Transaction @entity {
+  id: ID!
+
+  tx: Bytes!
+
+  type: TransactionType!
+
+  timestamp: Int!
+
+  sender: Bytes!
+
+  amount: BigInt!
+}
+
+type ReInvestTransaction implements Transaction @entity {
+  id: ID!
+
+  tx: Bytes!
+
+  type: TransactionType!
+
+  timestamp: Int!
+
+  sender: Bytes!
+
+  amount: BigInt!
+
+  tax: BigInt!
+}
+
+type DistributeTransaction implements Transaction @entity {
+  id: ID!
+
+  tx: Bytes!
+
+  type: TransactionType!
+
+  timestamp: Int!
+
+  sender: Bytes!
+
+  amount: BigInt!
 }
