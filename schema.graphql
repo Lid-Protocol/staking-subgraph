@@ -103,11 +103,9 @@ type StakerPayouts @entity {
 type StakingContract @entity {
   id: ID!
 
-  lidToken: Token!
+  stakingTaxBP: BigInt!
 
-  stakingTaxBP: Int!
-
-  unstakingTaxBP: Int!
+  unstakingTaxBP: BigInt!
 
   totalDistributions: BigInt!
 
@@ -117,7 +115,7 @@ type StakingContract @entity {
 
   profitPerShare: BigInt!
 
-  startTime: Int!
+  startTime: BigInt!
 
   registrationFeeWithReferrer: BigInt!
 

@@ -1,5 +1,7 @@
 {
   "network": "mainnet",
-  "address": "0x9a54FE35D41bc7c8F7071aBf0cCD952505e29ceb",
-  "startBlock": 10495555
+  "staking_address": "0x9a54FE35D41bc7c8F7071aBf0cCD952505e29ceb",
+  "staking_startBlock": 10495555,
+  "token_address": "0x0417912b3a7af768051765040a55bb0925d4ddcf",
+  "token_startBlock": 10495533
 }

@@ -8,9 +8,9 @@ dataSources:
     name: LidStaking
     network: '{{network}}'
     source:
-      address: '{{address}}'
+      address: '{{staking_address}}'
       abi: LidStaking
-      startBlock: {{startBlock}}
+      startBlock: {{staking_startBlock}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -21,8 +21,6 @@ dataSources:
       abis:
         - name: LidStaking
           file: ./abis/LidStaking.json
-        - name: LidToken
-          file: ./abis/LidToken.json
       eventHandlers:
         - event: OnDistribute(address,uint256)
           handler: handleOnDistribute
@@ -35,3 +33,24 @@ dataSources:
         - event: OnWithdraw(address,uint256)
           handler: handleOnWithdraw
       file: ./src/mappings/StakingContract.ts
+  - kind: ethereum/contract
+    name: LidToken
+    network: '{{network}}'
+    source:
+      address: '{{token_address}}'
+      abi: LidToken
+      startBlock: {{token_startBlock}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Token
+      abis:
+        - name: LidToken
+          file: ./abis/LidToken.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+        
+      file: ./src/mappings/TokenContract.ts
