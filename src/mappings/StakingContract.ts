@@ -11,6 +11,7 @@ import {
   handleStake,
   handleUnStake,
   handleDistribute,
+  handleReInvest,
 } from '../models/Staking'
 import {
   getOrCreateStakeTransaction,
@@ -73,6 +74,8 @@ export function handleOnWithdraw(event: OnWithdraw): void {
 }
 
 export function handleOnReinvest(event: OnReinvest): void {
+  handleReInvest(event)
+
   appendVolumeMetrics(
     TransactionType.STAKING_CONTRACT_REINVEST,
     toDecimal(event.params.amount, TOKEN_DECIMALS),

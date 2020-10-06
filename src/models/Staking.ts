@@ -39,7 +39,8 @@ export function upsertStakingContract(address: Address): StakingContract {
 export function handleStake(event: OnStake): void {
   // TODO: handle totalStakers, profitPerShare stakingValue, stakerPayouts
   let staking = getOrCreateStakingContract(event.address)
-  staking.totalStaked = staking.totalStaked.plus(event.params.amount)
+  let stakeAmount = event.params.amount.minus(event.params.tax)
+  staking.totalStaked = staking.totalStaked.plus(stakeAmount)
   staking.save()
 }
 
@@ -59,4 +60,12 @@ export function handleDistribute(event: OnDistribute): void {
   staking.save()
 }
 
-// TODO: handle ReInvest, Withdraw
+export function handleReInvest(event: OnReinvest): void {
+  // TODO: handle totalStakers, profitPerShare stakingValue, stakerPayouts
+  let staking = getOrCreateStakingContract(event.address)
+  let stakeAmount = event.params.amount.minus(event.params.tax)
+  staking.totalStaked = staking.totalStaked.plus(stakeAmount)
+  staking.save()
+}
+
+// TODO: handle Withdraw

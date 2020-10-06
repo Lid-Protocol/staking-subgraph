@@ -21,7 +21,7 @@ export function upsertToken(address: Address): Token {
   token.name = contract.name()
   token.symbol = contract.symbol()
   token.decimals = contract.decimals()
-  token.totalSupply = toDecimal(contract.totalSupply(), token.decimals)
+  token.totalSupply = BigDecimal.fromString('0')
   token.totalMinted = BigDecimal.fromString('0')
   token.totalBurned = BigDecimal.fromString('0')
   token.save()
