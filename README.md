@@ -1,4 +1,4 @@
-# mStable Subgraph
+# Lid Staking Subgraph
 
 A subgraph for [lid-stacking contracts]() on [The Graph](http://thegraph.com/).
 
