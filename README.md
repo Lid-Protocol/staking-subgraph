@@ -1,6 +1,6 @@
 # Lid Staking Subgraph
 
-A subgraph for [lid-stacking contracts]() on [The Graph](http://thegraph.com/).
+A subgraph for [lid-stacking contracts](https://github.com/Lid-Protocol/lid-core) on [The Graph](http://thegraph.com/).
 
 ---
 
